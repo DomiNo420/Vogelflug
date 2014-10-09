@@ -47,7 +47,7 @@ public class Sprite {
 	}
 
 	public void moveRight() {
-		bmp=bmpFly;
+		bmp = bmpFly;
 		spriteRow = 1;
 		animateHor = 1;
 		bouncedHor = false;
@@ -57,7 +57,7 @@ public class Sprite {
 	}
 
 	public void moveLeft() {
-		bmp=bmpFly;
+		bmp = bmpFly;
 		spriteRow = 0;
 		animateHor = 2;
 		bouncedHor = false;
@@ -96,7 +96,7 @@ public class Sprite {
 			animateHor = 0;
 		}
 	}
-	
+
 	public void bounceOff() {
 		if (countArray >= posX.length) {
 
@@ -175,51 +175,61 @@ public class Sprite {
 			first = false;
 		}
 
-		frameZeiger = (++frameZeiger) % BMP_COLUMNS;
-		
-		if((animateHor == 0)&&(animateVer == 0)){
+		if ((animateHor == 0) && (animateVer == 0)) {
 			bmp = bmpFloat;
-			spriteRow = ++spriteRow % spriteRow;
+			if (frameZeiger < 3) {
+				frameZeiger++;
+			} else {
+				frameZeiger = 0;
+				if (spriteRow < 3) {
+					spriteRow++;
+				} else {
+					spriteRow = 0;
+				}
+			}
+
 		}
-		if(animateHor == 1) {
+		if (animateHor == 1) {
 			if (countArray < posX.length) {
 				goRight();
 			} else {
 				bounceOff();
 			}
 		}
-		if(animateHor == 2) {
+		if (animateHor == 2) {
 			if (countArray >= 0 && countArray < posX.length) {
 				goLeft();
 			} else {
 				bounceOff();
 			}
 		}
-		if(animateVer == 3) {
+		if (animateVer == 3) {
 			goUp();
 		}
-		if(animateVer == 4) {
+		if (animateVer == 4) {
 			goDown();
 		}
 		int sourceX = frameZeiger * width;
 		int sourceY = spriteRow * height;
-		source = new Rect(sourceX, sourceY, sourceX + width, sourceY
-				+ height); // Rechteck mit den jeweiligen Eckkoordinaten des
-							// Sprite-Frames
-		destine = new Rect(actualX, actualY, actualX
-				+ width, actualY + height);	
+		source = new Rect(sourceX, sourceY, sourceX + width, sourceY + height); // Rechteck
+																				// mit
+																				// den
+																				// jeweiligen
+																				// Eckkoordinaten
+																				// des
+																				// Sprite-Frames
+		destine = new Rect(actualX, actualY, actualX + width, actualY + height);
 		canvas.drawBitmap(bmp, source, destine, null);
-		
-	}
-	
-	public Rect getDestine(){
-		return destine;
-	}
-	
-	public Bitmap getBitmap(){
-		return bmp;		
+
 	}
 
-	
+	public Rect getDestine() {
+		return new Rect(actualX + 20, actualY + 20, actualX + width - 20,
+				actualY + height - 20);
+	}
+
+	public Bitmap getBitmap() {
+		return bmp;
+	}
 
 }
